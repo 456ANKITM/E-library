@@ -1,0 +1,27 @@
+I am going to build this application from now to tomorrow and tomorrow i will ship this application to the world at night 
+Let's Jump in 
+Task 1: Create a Frontend with vite + react + tailwind CSS + Backend with expres + connnect mongoDB 
+Task 2: Set up Routing in Your frontend with react router inside app.jsx and design and develop the home page of your application 
+PHASE 1 
+Task 1: Entry Point and Authentication with token and setup the user as global state using
+redux 
+Task 2: Create a Signup and signin controller and also use JSON Web token to authenticate 
+Task 3: set up redux toolkit and RTK Query for our application and use some "proxy" for the API Call 
+Task 4: Let's Make a controller to add the Books with their Image and the book and the image will be on cloud platform and we will get their url and store in the database 
+Task 5: We have made a controller to do that now just delete every book from the database and please add 10 good books inside the database 
+Task 6: Create a Controller to get the book by id and later make RTK Query for that after that fetching the books details create a BooksDetail Page and Add the feature preview the book online 
+Task 7: Add Rating and Review functionality to the app, user can rate the book and add a review and we are going to fetch those reviews and display in the Book Details section 
+Task 8: Create 1 controller in first controller to add the rating and one field in book model named averageRating and if in rating controller after adding the rating calculate the averageRating 
+Task 9: Simulate our rating API With frontend and get the book and add  average rating
+Task 10: Create a Logout button just side at the username  
+2026-03-30 
+Task 1: Create a Controller to add the book to the favouriteArrays of the usermodel [Done] 
+Task 2: When We click on the username in the Navbar We should go to profile page of the user 
+Task 3: Design the Profile Page and how are this going go be [Done]
+Task 4: Create a controller to get all favourites book of the user with the all potential data of the book [Done]
+Task 5: Create RTK Query for an API Call to get all favourite books and display all the favourite books image inside the favourite books section in profile and when the user clicks on image they should move to the /book/:bookId pages which we have build and there if the book in the favourite books they should see remove from favourites instead of addtoFavourite book and if the click on remove from favourites then it should be removed from the favourites  
+Task 6: Create a API to remove the books from the favourites and simulate our API with that button and after that simulate our Api to add to favourite button 
+Task 7: Create an API to get users by ID and make the API Call in RTK Query in frontend 
+Task 8: Create the Search API in backend where we can get the book based on the search and the search will happen on 3 fields like title, genre and authorname and making the API test it in postman and then create an RTK Query for that after RTK Query create a Search page and when we click on after writing something in the search box in home page we should move to this search page with our result. 
+
+- Let's host this Application online on Vercel 
