@@ -14,6 +14,7 @@ const Books = () => {
   }
 
   const books = data?.books || []
+  console.log(books);
 
 
   return (
