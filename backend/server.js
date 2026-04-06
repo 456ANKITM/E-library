@@ -23,11 +23,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(cors({
-  origin: [
-    // "http://localhost:5173",
-    "https://e-library-phi-jet.vercel.app/"
-  ],
-  credentials: true,
+  origin: true,
+  credentials: true
 }));
 
 //Endpoints
