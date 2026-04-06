@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import BookCard from "../components/BookCard";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const Books = () => {
   const navigate = useNavigate();
