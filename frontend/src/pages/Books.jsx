@@ -14,7 +14,7 @@ const Books = () => {
     return <p className="text-center mt-10">Loading books...</p>;
   }
 
-  const books = data?.books;
+  const books = data?.books || [];
   console.log(books)
 
   return (
