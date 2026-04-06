@@ -24,8 +24,8 @@ app.use(cookieParser())
 
 app.use(cors({
   origin: [
-    "http://localhost:5173",
-    "https://e-library-5pit.vercel.app/"
+    // "http://localhost:5173",
+    "https://e-library-ashy-five.vercel.app/"
   ],
   credentials: true,
 }));
