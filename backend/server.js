@@ -6,6 +6,7 @@ import bookRoutes from "./routes/bookRoutes.js"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import connectCloudinary from "./config/cloudinary.js";
+import Book from "./models/Book.js";
 
 
 dotenv.config()
@@ -32,6 +33,14 @@ app.use(cors({
 app.get("/",(req, res)=>{
   res.send("Backend is up and running")
 })
+app.get("/test-db", async (req, res) => {
+  try {
+    const books = await Book.find();
+    res.json({ success: true, books });
+  } catch (error) {
+    res.json({ success: false, error: error.message });
+  }
+});
 app.use("/api/auth", authRoutes)
 app.use("/api/book", bookRoutes)
 
