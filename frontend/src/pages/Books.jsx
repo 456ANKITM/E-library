@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import BookCard from "../components/BookCard";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Books = () => {
   const navigate = useNavigate();
@@ -14,8 +15,8 @@ const Books = () => {
     return <p className="text-center mt-10">Loading books...</p>;
   }
 
-  const books = data?.books || [];
-  console.log(books)
+  const books = data?.books || []
+
 
   return (
     <div>
