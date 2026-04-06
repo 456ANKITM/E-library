@@ -2,40 +2,49 @@
 import Book from "../models/Book.js";
 import { v2 as cloudinary } from "cloudinary";
 import User from "../models/User.js";
+import streamifier from "streamifier";
+
+const streamUpload = (buffer, resourceType) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { resource_type: resourceType },
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};
+
 
 export const addBook = async (req, res) => {
   try {
     const { title, description, author, category } = req.body;
 
     if (!req.files || !req.files.image || !req.files.file) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Image and file are required" });
+      return res.status(400).json({
+        success: false,
+        message: "Image and file are required",
+      });
     }
 
-    console.log(req.files);
-    // Upload image
-    const imageResult = await cloudinary.uploader.upload(
-      req.files.image[0].path,
-      { resource_type: "image" },
-    );
+    // ✅ Get buffers instead of paths
+    const imageBuffer = req.files.image[0].buffer;
+    const fileBuffer = req.files.file[0].buffer;
 
-    console.log("imageResult", imageResult);
+    // ✅ Upload image
+    const imageResult = await streamUpload(imageBuffer, "image");
 
-    // upload a book
-    const fileResult = await cloudinary.uploader.upload(
-      req.files.file[0].path,
-      { resource_type: "raw" },
-    );
+    // ✅ Upload PDF
+    const fileResult = await streamUpload(fileBuffer, "raw");
 
     const fileURL = cloudinary.url(fileResult.public_id, {
       resource_type: "raw",
       secure: true,
     });
 
-    console.log("PDF URL for browser:", fileURL);
-
-    
     const newBook = new Book({
       title,
       description,
@@ -47,10 +56,16 @@ export const addBook = async (req, res) => {
 
     const savedBook = await newBook.save();
 
-    res.status(201).json({ success: true, book: savedBook });
+    res.status(201).json({
+      success: true,
+      book: savedBook,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Server Error" });
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
   }
 };
 
