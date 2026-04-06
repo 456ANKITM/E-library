@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 4000
 const app = express();
 
 await connectCloudinary();
+await connectDB();
 
 // middlewares 
 app.use(express.json())
