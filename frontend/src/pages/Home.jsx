@@ -5,6 +5,7 @@ import CategorySection from '../components/CategorySection'
 import Footer from '../components/Footer'
 
 const Home = () => {
+  console.log(import.meta.env.VITE_BASE_URL);
   return (
     <div>
       <Navbar />
