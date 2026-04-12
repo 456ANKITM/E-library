@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { useSignupMutation } from "../redux/api/authApi";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -18,8 +19,13 @@ const Signup = () => {
     setLoading(true);
     try {
       const response = await signup({ username, email, password }).unwrap();
-      console.log("Signup Successfull:", response);
-      navigate("/signin");
+      if(response.success) {
+        toast.success(response.message)
+        navigate("/signin");
+      } else {
+        toast.error(response.data.message)
+      }
+      
     } catch (error) {
       console.error("Signup error:", error);
     }  finally {

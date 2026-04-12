@@ -25,3 +25,7 @@ Task 7: Create an API to get users by ID and make the API Call in RTK Query in f
 Task 8: Create the Search API in backend where we can get the book based on the search and the search will happen on 3 fields like title, genre and authorname and making the API test it in postman and then create an RTK Query for that after RTK Query create a Search page and when we click on after writing something in the search box in home page we should move to this search page with our result. 
 
 - Let's host this Application online on Vercel 
+
+- I need to fix some bugs in this application and make it production ready so that the client can get impresssed by us 
+
+- Now We need to add some toast notification on signup or login right we need to provide toast 

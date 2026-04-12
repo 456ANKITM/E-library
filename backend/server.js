@@ -42,17 +42,17 @@ app.get("/test-db", async (req, res) => {
 app.use("/api/auth", authRoutes)
 app.use("/api/book", bookRoutes)
 
-// const startServer = async () => {
-//   try {
-//     await connectDB()
-//      app.listen(PORT, () => {
-//       console.log(`Server running on port ${PORT}`);
-//     });
+const startServer = async () => {
+  try {
+    await connectDB()
+     app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
 
-//   } catch (error) {
-//     console.error("Server failed to start:", error.message);
-//   }
-// }
-// startServer()
+  } catch (error) {
+    console.error("Server failed to start:", error.message);
+  }
+}
+startServer()
 
 export default app;

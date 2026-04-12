@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import { useSigninMutation } from '../redux/api/authApi';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/slices/userSlice';
+import toast from 'react-hot-toast';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -20,8 +21,15 @@ const Signin = () => {
        setLoading(true);
        try {
            const response = await signin({email, password})
-           dispatch(setUser(response.data.user))
-           navigate("/")
+           
+           if(response.data.success) {
+              dispatch(setUser(response.data.user))
+              toast.success("Signin Successfull")
+              navigate("/")
+           } else {
+            toast.error(response.data.message)
+           }
+           
            
        } catch (error) {
          console.log(error.message)

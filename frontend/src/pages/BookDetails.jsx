@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useAddToFavouriteMutation, useGetBookByIdQuery, useGetUserByIdQuery, useRemoveFromFavouriteMutation } from "../redux/api/authApi";
 import { useAddRatingMutation } from "../redux/api/authApi";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const BookDetails = () => {
 
@@ -12,14 +13,14 @@ const BookDetails = () => {
   const [rating, setRating] = useState(0);
   const [hasRated, setHasRated] = useState(false);
 
-  const { data, isLoading, error } = useGetBookByIdQuery(bookId, {
+  const { data, isLoading, error, refetch } = useGetBookByIdQuery(bookId, {
     skip: !bookId,
   });
 
   const [addRating] = useAddRatingMutation();
   const [addToFavourite] = useAddToFavouriteMutation();
   const [removeFromFavourite] = useRemoveFromFavouriteMutation();
-  const {data:userData} = useGetUserByIdQuery()
+  const {data:userData, refetch: refetchUser} = useGetUserByIdQuery()
 
   // Assuming you store current logged-in user in Redux
   const { currentUser } = useSelector((state) => state.user);
@@ -33,6 +34,7 @@ const BookDetails = () => {
       if (existingRating) {
         setRating(existingRating.rating);
         setHasRated(true);
+        refetch()
       }
     }
   }, [data, userId]);
@@ -49,6 +51,7 @@ const BookDetails = () => {
       setRating(star);
       const response = await addRating({ rating: star, bookId }).unwrap();
       console.log("Rating submitted", response);
+      refetch();
     } catch (error) {
       console.error("Rating failed", error);
     }
@@ -57,7 +60,8 @@ const BookDetails = () => {
   const handleAddFavourite = async () => {
     try {
       await addToFavourite({bookId}).unwrap();
-      console.log("Add to Favourites")
+      refetchUser();
+      toast.success("Book Added to Favourites")
     } catch (error) {
       console.error("Failed to add to favourite", error.message)
     }
@@ -66,7 +70,9 @@ const BookDetails = () => {
   const handleRemoveFavourite = async () => {
     try {
       await removeFromFavourite({bookId}).unwrap();
-      console.log("Removed from favourites")
+      refetchUser();
+      toast.error("Book removed from favourites")
+
     } catch (error) {
       console.error("Error Removing from favourites:", error.message)
     }
