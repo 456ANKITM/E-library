@@ -77,9 +77,16 @@ export const authApiSlice = createApi({
         url:`/api/book/search?query=${searchTerm}`,
         method:'GET'
       })
-    })
+    }),
+
+    getBooksByCategory: builder.query({
+      query: (category) => ({
+        url: `/api/book/category/${category}`,
+        method:'GET'
+      })
+    }),
 
    })
 })
 
-export const {useSigninMutation, useSignupMutation, useGetAllBooksQuery, useGetBookByIdQuery, useAddRatingMutation, useGetAllFavouriteBooksQuery, useAddToFavouriteMutation, useRemoveFromFavouriteMutation, useGetUserByIdQuery, useSearchBooksQuery} = authApiSlice;
+export const {useSigninMutation, useSignupMutation, useGetAllBooksQuery, useGetBookByIdQuery, useAddRatingMutation, useGetAllFavouriteBooksQuery, useAddToFavouriteMutation, useRemoveFromFavouriteMutation, useGetUserByIdQuery, useSearchBooksQuery, useGetBooksByCategoryQuery} = authApiSlice;

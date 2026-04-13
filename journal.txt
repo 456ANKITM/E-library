@@ -28,4 +28,17 @@ Task 8: Create the Search API in backend where we can get the book based on the 
 
 - I need to fix some bugs in this application and make it production ready so that the client can get impresssed by us 
 
-- Now We need to add some toast notification on signup or login right we need to provide toast 
+- Now We need to add some toast notification on signup or login right we need to provide toast There has been some problem in ratings and favourites array of our online library which we will need to solve and will do that later 
+
+2026-04-13
+
+Task 1: Every Book in our database should have one of these 12 category so we need to put it in enum in our book-model and also required when creating a book
+
+Task 2: Download 12 books in pdf file and also their image from each category.
+Task 3: Create an API to fetch the books with the category 
+Task 4: So Basic features have been maintained and now let's check the authentication and what our users will do and test this app 
+Task 5: Let's Fix the Navbar after login So after Login insted of logout You should not show logout button button on hover or click over your name then a dropdown should appear like profile or logout or we should move to the profile Page and from there we can log out and also we can change many functionalities from there 
+
+Task 6: So Actually We need to work on our profile Page a little bit more because this page is looking like shit But First We need to think of it as what do a platform like us will require from a user 
+
+Task 7: We need to solve the main issue about previewing the book 

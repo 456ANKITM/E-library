@@ -5,17 +5,21 @@ const CategorySection = () => {
 
   const categories = [
     "Fiction",
-    "Science",
-    "Business",
-    "Technology",
-    "Self-Help",
-    "History",
-    "Education",
+    "Mystery",
+    "Thriller",
+    "Romance",
+    "Fantasy",
+    "Horror",
     "Biography",
+    "History",
+    "Business",
+    "Philosophy",
+    "Technology",
+    "Self-help"
   ];
 
   const handleCategoryClick = (category) => {
-    navigate(`/books?category=${category}`);
+    navigate(`/books/find?category=${category}`);
   };
 
   return (

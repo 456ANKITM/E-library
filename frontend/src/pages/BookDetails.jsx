@@ -24,7 +24,7 @@ const BookDetails = () => {
 
   // Assuming you store current logged-in user in Redux
   const { currentUser } = useSelector((state) => state.user);
-  const userId = currentUser._id;
+  const userId = currentUser?._id;
 
   useEffect(() => {
     if (data?.book && userId) {

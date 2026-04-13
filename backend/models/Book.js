@@ -1,10 +1,25 @@
 import mongoose from "mongoose";
 
+const BOOK_CATEGORIES = [
+  "Fiction",
+  "Mystery",
+  "Thriller",
+  "Romance",
+  "Fantasy",
+  "Horror",
+  "Biography",
+  "History",
+  "Business",
+  "Philosophy",
+  "Technology",
+  "Self-help"
+];
+
 const bookSchema = new mongoose.Schema({
   title:{type:String, required:true},
   description:{type:String, required:true},
   author:{type:String, required:true},
-  category:{type:String, required:true},
+  category:{type:String, enum: BOOK_CATEGORIES, required:true},
   fileUrl:{type:String, required:true},
   imgUrl:{type:String, required:true},
   genre:{type:String, default:""},

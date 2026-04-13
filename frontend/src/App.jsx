@@ -9,6 +9,7 @@ import Profile from './pages/Profile'
 import Search from './pages/Search'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import Category from './pages/Category'
 
 const App = () => {
   return (
@@ -18,10 +19,11 @@ const App = () => {
      <Route path="/signup" element={<Signup />} />
      <Route path="/signin" element={<Signin />} />
      <Route path="/books" element={<Books />} />
-     <Route path="/profile" element={<Profile />} />
+     <Route path="/favourites" element={<Profile />} />
      <Route path="/about" element={<About />} />
      <Route path="/contact" element={<Contact />} />
      <Route path="/search" element={<Search />} />
+     <Route path="/books/find" element={<Category />} />
      <Route path="/book/:bookId" element={<BookDetails />} />
      
    </Routes>

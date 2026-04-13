@@ -16,7 +16,7 @@ const Hero = () => {
   }
 
   return (
-    <section className=" mt-20 px-6 xl:px-32 text-black bg-white  w-full bg-no-repeat bg-cover bg-center text-sm">
+    <section className=" mt-40 px-6 xl:px-32 text-black bg-white  w-full bg-no-repeat bg-cover bg-center text-sm">
 
 
       {/* Heading */}
@@ -31,12 +31,7 @@ const Hero = () => {
             <button type="submit" className="mr-1 h-10 w-56 rounded-full bg-black text-sm text-white transition active:scale-95">Search</button>
         </form>
 
-      {/* Buttons */}
-      {!currentUser && <div className="mx-auto flex items-center justify-center gap-3">
-        <button onClick={()=>navigate("/signup")}  className="bg-white text-black mt-10 border border-gray-300 md:inline hidden text-sm hover:bg-gray-50 active:scale-95 transition-all w-40 h-11 rounded-full cursor-pointer">
-          Get Started
-        </button>
-      </div>}
+     
     </section>
   );
 };

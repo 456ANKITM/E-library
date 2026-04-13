@@ -187,22 +187,91 @@ export const removeFavourites = async (req, res) => {
   }
 }
 
+// export const searchBook = async (req, res) => {
+//   try {
+//     const {query} = req.query;
+//     if(!query) {
+//       return res.json({success:false, message:"Search Query is required"})
+//     }
+//     const books = await Book.find({
+//       $or: [
+//           { title: { $regex: query, $options: "i" } },
+//            { author: { $regex: query, $options: "i" } },
+//              { category: { $regex: query, $options: "i" } },
+//       ]
+//     }).sort({createdAt:-1});
+//     res.json({success:true, books})
+//   } catch (error) {
+//     res.json({success:false, message:"Server error"})
+//   }
+// }
+
 export const searchBook = async (req, res) => {
   try {
-    const {query} = req.query;
-    if(!query) {
-      return res.json({success:false, message:"Search Query is required"})
+    const { query } = req.query;
+
+    if (!query) {
+      return res.status(400).json({
+        success: false,
+        message: "Search query is required",
+      });
     }
-    const books = await Book.find({
-      $or: [
-          { title: { $regex: query, $options: "i" } },
-           { author: { $regex: query, $options: "i" } },
-             { category: { $regex: query, $options: "i" } },
-      ]
-    }).sort({createdAt:-1});
-    res.json({success:true, books})
+
+    // 1. Split query into words
+    const keywords = query
+      .toLowerCase()
+      .split(" ")
+      .filter((word) => word.trim() !== "");
+
+    const books = await Book.find();
+
+    // 2. Score each book
+    const scoredBooks = books.map((book) => {
+      let score = 0;
+
+      const title = book.title.toLowerCase();
+      const author = book.author.toLowerCase();
+      const category = book.category.toLowerCase();
+
+      keywords.forEach((word) => {
+        if (title.includes(word)) score += 5;      // strongest match
+        if (author.includes(word)) score += 3;
+        if (category.includes(word)) score += 2;
+      });
+
+      return { book, score };
+    });
+
+    // 3. Filter + sort
+    const filtered = scoredBooks
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map((item) => item.book);
+
+    return res.json({
+      success: true,
+      count: filtered.length,
+      books: filtered,
+    });
   } catch (error) {
-    res.json({success:false, message:"Server error"})
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+export const fetchBookByCategory = async (req, res) => {
+  try {
+    const {category} = req.params;
+    if(!category) {
+      return res.json({success:false, message:"Category is required"})
+    }
+    const books = await Book.find({category:category})
+    return res.json({success:true, books})
+  } catch (error) {
+     res.json({success:false, message:"Server Error"})
   }
 }
 
