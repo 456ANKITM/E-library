@@ -251,8 +251,8 @@ const isFavourite = currentUser && userData?.user?.favouriteBooks?.includes(book
                    {reviewData?.reviews.map((review)=>(
                     <div key={review._id} className='bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition'>
                       <div className='flex items-center justify-between mb-2'>
-                        <h4>{review?.user?.username || review?.name || "Anonymous"}</h4>
-                         <span>{new Date(review.createdAt).toLocaleString()}</span>
+                        <h4 className="w-full">{review?.user?.username || review?.name || "Anonymous"}</h4>
+                        <span>{new Date(review.createdAt).toLocaleDateString()}</span>
                       </div>
                        <p className="text-gray-600">{review.comment}</p>
                        </div>

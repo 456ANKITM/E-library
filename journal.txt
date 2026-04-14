@@ -57,7 +57,7 @@ Problem 4: If a non-logged in user tries to preview book or add ratings We need 
 
 Problem 5: Add Reviews System In Book details Page  [Solved]
 
-Problem 6: How about applying just reading functionality and not download One 
+Problem 6: How about applying just reading functionality and not download One [Solved]
 
 
 
