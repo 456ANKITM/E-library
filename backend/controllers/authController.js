@@ -43,8 +43,11 @@ export const signin = async (req, res) => {
     
     const { password: _, ...userData } = user._doc;
 
-    res
-      .cookie("token", token,{httpOnly:true})
+    res.cookie("token", token,{
+      httpOnly:true,
+      secure: true,
+      sameSite: "none"
+    })
       .json({ success: true, message: "Login Successfull", user: userData });
   } catch (error) {
     res.json({ success: false, message: "Server Error" });

@@ -42,7 +42,6 @@ export const authApiSlice = createApi({
         url:`/api/book/addRating/${bookId}`,
         method:'POST',
         body: {rating},
-        credentials:"include"
       })
     }),
 

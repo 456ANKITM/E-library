@@ -51,4 +51,6 @@ Problem 1: We need to upload our book on cloudinary and get the book link when w
 
 Problem 2: We need an Admin Dashboard from where we can Control the Books Get All Books and Delete Books and Post a book  [Solved]
 
+Problem 3: Ratings and Add to Favourites are not working on production we need to fix that issue and it should work with proper toast notifications 
+
 
