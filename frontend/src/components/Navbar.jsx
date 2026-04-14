@@ -6,6 +6,7 @@ import { clearUser } from "../redux/slices/userSlice";
 
 const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser)
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -67,6 +68,12 @@ const Navbar = () => {
               >
                 🚪 Logout
               </button>
+              {currentUser.isAdmin && <button
+                onClick={()=>navigate("/admin")}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm "
+              >
+                👑 Admin Dashboard 
+              </button> }
 
             </div>
           )}

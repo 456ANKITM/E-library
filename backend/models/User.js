@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   email:{type:String, required:true, unique:true},
   password:{type:String, required:true},
   bio:{type:String, default:"", maxlength:500},
+  isAdmin:{type:Boolean, default:false},
   favouriteBooks:[
     {
       type: mongoose.Schema.Types.ObjectId,

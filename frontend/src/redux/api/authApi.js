@@ -86,7 +86,23 @@ export const authApiSlice = createApi({
       })
     }),
 
+    postBook: builder.mutation({
+      query:(formData) => ({
+        url:"/api/book/upload",
+        method:'POST',
+        body:formData
+      }),
+       invalidatesTags: ["Books"],
+    }),
+
+    deleteBook: builder.mutation({
+      query:(bookId) => ({
+        url: `/api/book/deleteBook/${bookId}`,
+        method:'DELETE'
+      })
+    })
+
    })
 })
 
-export const {useSigninMutation, useSignupMutation, useGetAllBooksQuery, useGetBookByIdQuery, useAddRatingMutation, useGetAllFavouriteBooksQuery, useAddToFavouriteMutation, useRemoveFromFavouriteMutation, useGetUserByIdQuery, useSearchBooksQuery, useGetBooksByCategoryQuery} = authApiSlice;
+export const {useSigninMutation, useSignupMutation, useGetAllBooksQuery, useGetBookByIdQuery, useAddRatingMutation, useGetAllFavouriteBooksQuery, useAddToFavouriteMutation, useRemoveFromFavouriteMutation, useGetUserByIdQuery, useSearchBooksQuery, useGetBooksByCategoryQuery, usePostBookMutation, useDeleteBookMutation} = authApiSlice;

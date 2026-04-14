@@ -4,10 +4,45 @@ import { v2 as cloudinary } from "cloudinary";
 import User from "../models/User.js";
 import streamifier from "streamifier";
 
+// const streamUpload = (buffer, resourceType) => {
+//   return new Promise((resolve, reject) => {
+//     const stream = cloudinary.uploader.upload_stream(
+//       { resource_type: resourceType },
+//       (error, result) => {
+//         if (result) resolve(result);
+//         else reject(error);
+//       }
+//     );
+
+//     streamifier.createReadStream(buffer).pipe(stream);
+//   });
+// };
+
+// const streamUpload = (buffer, resourceType, format = null) => {
+//   return new Promise((resolve, reject) => {
+//     const stream = cloudinary.uploader.upload_stream(
+//       {
+//         resource_type: resourceType,
+//         format: format, // 👈 add this
+//       },
+//       (error, result) => {
+//         if (result) resolve(result);
+//         else reject(error);
+//       }
+//     );
+
+//     streamifier.createReadStream(buffer).pipe(stream);
+//   });
+// };
+
 const streamUpload = (buffer, resourceType) => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { resource_type: resourceType },
+      {
+        resource_type: resourceType,
+        type: "upload", // ✅ IMPORTANT (public delivery)
+        access_mode: "public", // ✅ ensure public
+      },
       (error, result) => {
         if (result) resolve(result);
         else reject(error);
@@ -38,13 +73,10 @@ export const addBook = async (req, res) => {
     const imageResult = await streamUpload(imageBuffer, "image");
 
     // ✅ Upload PDF
-    const fileResult = await streamUpload(fileBuffer, "raw");
+    const fileResult = await streamUpload(fileBuffer, "auto");
 
-    const fileURL = cloudinary.url(fileResult.public_id, {
-      resource_type: "raw",
-      secure: true,
-    });
-
+    const fileURL = fileResult.secure_url
+   
     const newBook = new Book({
       title,
       description,
@@ -272,6 +304,26 @@ export const fetchBookByCategory = async (req, res) => {
     return res.json({success:true, books})
   } catch (error) {
      res.json({success:false, message:"Server Error"})
+  }
+}
+
+export const deleteBook = async (req, res) => {
+  try {
+    const {bookId} = req.params;
+    if(!bookId) {
+      return res.json({success:false, Message:"Book Id is required"})
+    }
+    const book = await Book.findById(bookId)
+    if(!book) {
+      return res.json({success:false, message:"Book not found"})
+    }
+
+    await Book.findByIdAndDelete(bookId)
+
+    return res.json({success:true, message:"Book Deleted Successfully"})
+    
+  } catch (error) {
+    return res.json({success:false, message:"Server Error"})
   }
 }
 

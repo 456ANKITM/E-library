@@ -41,4 +41,14 @@ Task 5: Let's Fix the Navbar after login So after Login insted of logout You sho
 
 Task 6: So Actually We need to work on our profile Page a little bit more because this page is looking like shit But First We need to think of it as what do a platform like us will require from a user 
 
-Task 7: We need to solve the main issue about previewing the book 
+Task 7: We need to solve the main issue about previewing the book, There has been an issue with  our cloudinary, we need to setup our cloudinary as our cloudinary we need to create a new gogole and our clodudinary with it 
+
+2026-04-14 
+
+Today, We need to complete this project and do not leave any traces I mean completely complete this project in development.. and we are going too solve the problems one by one.
+
+Problem 1: We need to upload our book on cloudinary and get the book link when we click on preview book we should actually move to the preview book functionality [Solved]
+
+Problem 2: We need an Admin Dashboard from where we can Control the Books Get All Books and Delete Books and Post a book  [Solved]
+
+
