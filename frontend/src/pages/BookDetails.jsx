@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAddToFavouriteMutation, useGetBookByIdQuery, useGetUserByIdQuery, useRemoveFromFavouriteMutation } from "../redux/api/authApi";
 import { useAddRatingMutation } from "../redux/api/authApi";
 import { useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 const BookDetails = () => {
 
+  const navigate = useNavigate()
   const { bookId } = useParams();
   const [rating, setRating] = useState(0);
   const [hasRated, setHasRated] = useState(false);
@@ -22,9 +23,20 @@ const BookDetails = () => {
   const [removeFromFavourite] = useRemoveFromFavouriteMutation();
   const {data:userData, refetch: refetchUser} = useGetUserByIdQuery()
 
+  
+
   // Assuming you store current logged-in user in Redux
   const { currentUser } = useSelector((state) => state.user);
   const userId = currentUser?._id;
+
+  const requireAuth = (currentUser, navigate) => {
+  if (!currentUser) {
+    navigate("/signup");
+    return false;
+  }
+  return true;
+};
+
 
   useEffect(() => {
     if (data?.book && userId) {
@@ -47,6 +59,7 @@ const BookDetails = () => {
   const averageRating = book?.averageRating || 0;
 
   const handleRating = async (star) => {
+     if (!requireAuth(currentUser, navigate)) return;
     try {
       setRating(star);
       const response = await addRating({ rating: star, bookId }).unwrap();
@@ -58,6 +71,7 @@ const BookDetails = () => {
   };
 
   const handleAddFavourite = async () => {
+     if (!requireAuth(currentUser, navigate)) return;
     try {
       await addToFavourite({bookId}).unwrap();
       refetchUser();
@@ -68,6 +82,7 @@ const BookDetails = () => {
   }
 
   const handleRemoveFavourite = async () => {
+    //  if (!requireAuth(currentUser, navigate)) return;
     try {
       await removeFromFavourite({bookId}).unwrap();
       refetchUser();
@@ -77,6 +92,14 @@ const BookDetails = () => {
       console.error("Error Removing from favourites:", error.message)
     }
   }
+
+  const handlePreview = (bookId, fileUrl) => {
+  if (!requireAuth(currentUser, navigate)) return;
+
+  window.open(fileUrl, "_blank", "noopener,noreferrer");
+};
+
+const isFavourite = currentUser && userData?.user?.favouriteBooks?.includes(book?._id);
 
   return (
     <div>
@@ -104,25 +127,28 @@ const BookDetails = () => {
             <div className="mt-6 flex gap-4 flex-wrap">
               {" "}
               {/* Preview Button */}{" "}
-              <a
-                href={book?.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition"
-              >
-                {" "}
-                Preview Book{" "}
-              </a>{" "}
+              <button
+  onClick={() => handlePreview(book?._id, book?.fileUrl)}
+  className="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition"
+>
+  Preview Book
+</button>
               {/* Favourite Button */}{" "}
-              {userData?.user?.favouriteBooks?.includes(book._id) ? (
-                <button onClick={handleRemoveFavourite} className="border border-indigo-600 text-indigo-600 px-5 py-2 rounded-md hover:bg-indigo-50 transition">
-                {" "}
-                Remove from Favourites{" "}
-              </button>
-              ) : ( <button onClick={handleAddFavourite} className="border border-indigo-600 text-indigo-600 px-5 py-2 rounded-md hover:bg-indigo-50 transition">
-                {" "}
-                Add to Favourites{" "}
-              </button>) }
+            {isFavourite ? (
+  <button
+    onClick={handleRemoveFavourite}
+    className="border border-indigo-600 text-indigo-600 px-5 py-2 rounded-md hover:bg-indigo-50 transition"
+  >
+    Remove from Favourites
+  </button>
+) : (
+  <button
+    onClick={handleAddFavourite}
+    className="border border-indigo-600 text-indigo-600 px-5 py-2 rounded-md hover:bg-indigo-50 transition"
+  >
+    Add to Favourites
+  </button>
+)}
             </div>
             {/* Stars */}
             <div className="mt-10">
