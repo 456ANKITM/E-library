@@ -1,6 +1,6 @@
 import express from "express"
 import { uploadFields } from "../middleware/upload.js";
-import { addBook, addRating, addToFavourites, deleteBook, fetchBookByCategory, getAllBooks, getAllFavouriteBooks, getBookbyId, removeFavourites, searchBook } from "../controllers/bookController.js";
+import { addBook, addRating, addReview, addToFavourites, deleteBook, fetchBookByCategory, getAllBooks, getAllFavouriteBooks, getBookbyId, getBookReviews, removeFavourites, searchBook } from "../controllers/bookController.js";
 import protect from "../middleware/authMiddleware.js";
 
 const router = express.Router()
@@ -11,6 +11,8 @@ router.get("/search", searchBook)
 router.post("/upload", uploadFields, addBook)
 router.delete("/deleteBook/:bookId", protect, deleteBook)
 router.get("/getAllFavouriteBooks", protect, getAllFavouriteBooks)
+router.post("/review", protect, addReview)
+router.get("/reviews/:bookId", getBookReviews);
 router.get("/category/:category", fetchBookByCategory)
 router.get("/:bookId", getBookbyId);
 router.post("/addRating/:bookId", protect, addRating )

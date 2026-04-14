@@ -66,3 +66,5 @@ export const getUserById = async (req, res) => {
     res.json({success:false, message:"Server error"})
   }
 }
+
+

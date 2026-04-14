@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAddToFavouriteMutation, useGetBookByIdQuery, useGetUserByIdQuery, useRemoveFromFavouriteMutation } from "../redux/api/authApi";
+import { useAddReviewMutation, useAddToFavouriteMutation, useGetBookByIdQuery, useGetBookReviewsQuery, useGetUserByIdQuery, useRemoveFromFavouriteMutation } from "../redux/api/authApi";
 import { useAddRatingMutation } from "../redux/api/authApi";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -11,6 +11,7 @@ const BookDetails = () => {
 
   const navigate = useNavigate()
   const { bookId } = useParams();
+  const [comment, setComment] = useState("")
   const [rating, setRating] = useState(0);
   const [hasRated, setHasRated] = useState(false);
 
@@ -22,6 +23,9 @@ const BookDetails = () => {
   const [addToFavourite] = useAddToFavouriteMutation();
   const [removeFromFavourite] = useRemoveFromFavouriteMutation();
   const {data:userData, refetch: refetchUser} = useGetUserByIdQuery()
+  const {data:reviewData, isLoading:reviewLoading} = useGetBookReviewsQuery(bookId,
+    {skip: !bookId})
+  const [addReview, {isLoading: addingReview}] = useAddReviewMutation()
 
   
 
@@ -98,6 +102,25 @@ const BookDetails = () => {
 
   window.open(fileUrl, "_blank", "noopener,noreferrer");
 };
+
+const handleAddReview = async () => {
+ if(!requireAuth(currentUser, navigate)) return;
+ if(!comment.trim()) {
+  toast.error("Review can not be empty")
+ }
+ try {
+  let res = await addReview({bookId, comment}).unwrap()
+   if(res.success) {
+    setComment("")
+    toast.success("Review added")
+   } else {
+    setComment("")
+    toast.error(res.message)
+   }
+ } catch (error) {
+   toast.error(error?.data?.message || "Failed to add Review")
+ }
+}
 
 const isFavourite = currentUser && userData?.user?.favouriteBooks?.includes(book?._id);
 
@@ -195,6 +218,51 @@ const isFavourite = currentUser && userData?.user?.favouriteBooks?.includes(book
                 </span>
               </div>
             </div>
+             <div className='mt-12'>
+              <h2 className='text-2xl font-bold text-gray-800 mb-6'>Reviews</h2>
+              {/* Add Review box  */}
+              <div className='bg-white shadow-md rounded-xl p-4 mb-6'>
+                <textarea
+                value={comment}
+                onChange={(e)=>setComment(e.target.value)}
+                placeholder="Wrie Your review..."
+                className='w-full rounded-lg p-3 outline-none resize-none'
+                rows={4}
+                 />
+
+                 <div className="flex justify-end mt-3">
+                  <button
+                  onClick={handleAddReview}
+                  disabled={addingReview}
+                  className='bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50'
+                  >
+                   {addingReview ? "Posting..." : "Post Review"}
+                  </button>
+                 </div>
+
+              </div>
+              
+              {/* Reviews List  */}
+              {reviewLoading ? (
+                <p className='text-gray-500'>Loading Reviews....</p>
+              ) : reviewData?.reviews?.length === 0 ? (
+                <p className="text-gray-500">No Reviews Yet. Be the first!</p>
+              ): (
+                <div className='space-y-4'> 
+                   {reviewData?.reviews.map((review)=>(
+                    <div key={review._id} className='bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition'>
+                      <div className='flex items-center justify-between mb-2'>
+                        <h4>{review?.user?.username || review?.name || "Anonymous"}</h4>
+                         <span>{new Date(review.createdAt).toLocaleString()}</span>
+                      </div>
+                       <p className="text-gray-600">{review.comment}</p>
+                       </div>
+                   ))}
+                </div>
+              )}
+
+             </div>
+
           </div>
         </div>
       </div>

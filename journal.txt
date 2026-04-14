@@ -53,6 +53,10 @@ Problem 2: We need an Admin Dashboard from where we can Control the Books Get Al
 
 Problem 3: Ratings and Add to Favourites are not working on production we need to fix that issue and it should work with proper toast notifications [Solved]
 
-Problem 4: If a non-logged in user tries to preview book or add ratings We need to navigate them into ("/signup) page 
+Problem 4: If a non-logged in user tries to preview book or add ratings We need to navigate them into ("/signup) page [Solved] 
+
+Problem 5: Add Reviews System In Book details Page 
+
+
 
 

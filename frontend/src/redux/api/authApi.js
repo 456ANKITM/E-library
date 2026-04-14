@@ -99,9 +99,31 @@ export const authApiSlice = createApi({
         url: `/api/book/deleteBook/${bookId}`,
         method:'DELETE'
       })
+    }),
+
+    addReview: builder.mutation({
+      query: (data) => ({
+        url:"api/book/review",
+        method:"POST",
+        body: data
+      }),
+       invalidatesTags: (result, error, data) => [
+        { type: "Reviews", id: data.bookId },
+      ],
+    }),
+
+    getBookReviews: builder.query({
+      query:(bookId) => ({
+        url: `/api/book/reviews/${bookId}`
+      }),
+       providesTags: (result, error, bookId) => [
+        { type: "Reviews", id: bookId },
+      ],
     })
+
+
 
    })
 })
 
-export const {useSigninMutation, useSignupMutation, useGetAllBooksQuery, useGetBookByIdQuery, useAddRatingMutation, useGetAllFavouriteBooksQuery, useAddToFavouriteMutation, useRemoveFromFavouriteMutation, useGetUserByIdQuery, useSearchBooksQuery, useGetBooksByCategoryQuery, usePostBookMutation, useDeleteBookMutation} = authApiSlice;
+export const {useSigninMutation, useSignupMutation, useGetAllBooksQuery, useGetBookByIdQuery, useAddRatingMutation, useGetAllFavouriteBooksQuery, useAddToFavouriteMutation, useRemoveFromFavouriteMutation, useGetUserByIdQuery, useSearchBooksQuery, useGetBooksByCategoryQuery, usePostBookMutation, useDeleteBookMutation, useAddReviewMutation, useGetBookReviewsQuery} = authApiSlice;

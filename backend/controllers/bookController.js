@@ -327,3 +327,53 @@ export const deleteBook = async (req, res) => {
   }
 }
 
+export const addReview = async (req, res) => {
+  try{
+    const {bookId, comment} = req.body;
+    const userId = req.user;
+    console.log(userId)
+    const book = await Book.findById(bookId);
+    if(!book) {
+      return res.json({success:false, message:"Book not found"})
+    }
+    const user = await User.findById(userId).select("username")
+    if(!user) {
+      return res.json({success:false, message:"User not found"})
+    }
+    // check if user already reviewed
+    const alreadyReviewed = book.reviews.find((r)=>r.user.toString() === userId.toString())
+    if(alreadyReviewed) {
+      return res.json({success:false, message:"You have already reviewed this book"})
+    } else {
+      book.reviews.push({
+        user: userId,
+        name: user.name,
+        comment
+      })
+    }
+
+    await book.save()
+    return res.json({success:true, message:"Review added successfully", reviews:book.reviews})
+  } catch (error) {
+    return res.json({success:false, message:"Server Error"})
+  }
+}
+
+export const getBookReviews = async (req, res) => {
+  try {
+    const {bookId} = req.params;
+    const book = await Book.findById(bookId)
+    .select("reviews title")
+    .populate("reviews.user", "username")
+
+    if(!book) {
+      return res.json({success:false, message:"Book not found"})
+    }
+
+    const sortedReviews = book.reviews.sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt))
+
+    return res.json({success:true, bookTitle:book.title, totalReviews: sortedReviews.length, reviews:sortedReviews})
+  } catch (error) {
+    return res.json({success:false, message:"Server Error"})
+  }
+}
