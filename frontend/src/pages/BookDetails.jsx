@@ -99,8 +99,7 @@ const BookDetails = () => {
 
   const handlePreview = (bookId, fileUrl) => {
   if (!requireAuth(currentUser, navigate)) return;
-
-  window.open(fileUrl, "_blank", "noopener,noreferrer");
+  navigate(`/book-preview/${bookId}`)
 };
 
 const handleAddReview = async () => {

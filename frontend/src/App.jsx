@@ -11,6 +11,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Category from './pages/Category'
 import Admin from './pages/Admin'
+import BookPreview from './pages/BookPreview'
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
      <Route path="/search" element={<Search />} />
      <Route path="/books/find" element={<Category />} />
      < Route path ="/admin" element ={<Admin />} />
+     <Route path = "/book-preview/:bookId" element={<BookPreview />} />
      <Route path="/book/:bookId" element={<BookDetails />} />
      
    </Routes>

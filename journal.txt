@@ -55,7 +55,9 @@ Problem 3: Ratings and Add to Favourites are not working on production we need t
 
 Problem 4: If a non-logged in user tries to preview book or add ratings We need to navigate them into ("/signup) page [Solved] 
 
-Problem 5: Add Reviews System In Book details Page 
+Problem 5: Add Reviews System In Book details Page  [Solved]
+
+Problem 6: How about applying just reading functionality and not download One 
 
 
 
