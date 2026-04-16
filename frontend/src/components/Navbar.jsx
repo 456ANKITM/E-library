@@ -105,6 +105,14 @@ const Navbar = () => {
             <li><Link to="/about">About</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
+          <button
+          onClick={() => navigate("/signup")}
+          className="bg-black text-white p-2 rounded-xl mt-5"
+        >
+          Get started
+        </button>
+          
+           
         </div>
       )}
 
