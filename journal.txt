@@ -59,6 +59,10 @@ Problem 5: Add Reviews System In Book details Page  [Solved]
 
 Problem 6: How about applying just reading functionality and not download One [Solved]
 
+Problem 7: Add Some Books 
+
+I think We Solved this issue and this book website i belive is actually good and now we need to focus just on UI So I think yeah we have done well today in making this website solved various issues and limited time 
+
 
 
 
