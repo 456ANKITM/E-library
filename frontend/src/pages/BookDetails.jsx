@@ -98,7 +98,6 @@ const BookDetails = () => {
   }
 
   const handlePreview = (bookId, fileUrl) => {
-  if (!requireAuth(currentUser, navigate)) return;
   navigate(`/book-preview/${bookId}`)
 };
 
